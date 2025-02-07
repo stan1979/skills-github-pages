@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #frame {
+            border: 1px solid #000;
+            padding: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="frame">
+        <h1>Quiz Application</h1>
+        <p>What is 2 + 2?</p>
+        <button id="btnThree">3</button>
+        <button id="btnFour">4</button>
+        <button id="btnFive">5</button>
+        <br><br>
+        <button id="submitButton">Submit</button>
+        <p id="result">Correct: 0 Wrong: 0</p>
+    </div>
+    <script>
+        // Initialize counts
+        let correctCount = 0;
+        let wrongCount = 0;
+        let selectedAnswer = null;
+
+        // Load previous results from localStorage
+        window.onload = function() {
+            if (localStorage.getItem('correctCount')) {
+                correctCount = parseInt(localStorage.getItem('correctCount'));
+            }
+            if (localStorage.getItem('wrongCount')) {
+                wrongCount = parseInt(localStorage.getItem('wrongCount'));
+            }
+            document.getElementById('result').textContent = `Correct: ${correctCount} Wrong: ${wrongCount}`;
+        };
+
+        // Button click event listeners
+        document.getElementById('btnThree').addEventListener('click', function() {
+            selectedAnswer = '3';
+        });
+
+        document.getElementById('btnFour').addEventListener('click', function() {
+            selectedAnswer = '4';
+        });
+
+        document.getElementById('btnFive').addEventListener('click', function() {
+            selectedAnswer = '5';
+        });
+
+        document.getElementById('submitButton').addEventListener('click', function() {
+            if (selectedAnswer !== null) {
+                if (selectedAnswer === '4') {
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+                document.getElementById('result').textContent = `Correct: ${correctCount} Wrong: ${wrongCount}`;
+                saveResults();
+                selectedAnswer = null; // Reset selected answer
+            }
+        });
+
+        function saveResults() {
+            localStorage.setItem('correctCount', correctCount);
+            localStorage.setItem('wrongCount', wrongCount);
+        }
+    </script>
+</body>
+</html>
